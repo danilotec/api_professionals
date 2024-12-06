@@ -1,19 +1,66 @@
+import json,sqlite3
 
-class Customer:
+
+class DatabaseManager:
+
+    def __init__(self, db_path):
+        self.__db_path = db_path
+        self.connection = None
+
+    def connect_db(self):
+        if not self.connection:
+            self.connection = sqlite3.connect(self.__db_path)
     
-    def __init__(self, name, phone, id):
+    def execute_query(self, query, params=None):
+        self.connect_db()
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(query, params or ())
+            self.connection.commit()
+            return cursor.fetchall()
+        except sqlite3.Error as e:
+            print(f'Erro ao executar a consulta {e}')
+            return None
+
+    def close_db(self):
+        if self.connection:
+            self.connection.close()
+            self.connection = None
+
+
+class Customer(DatabaseManager):
+    
+    def __init__(self, name, phone, db_path):
         self.name = name
         self.phone = phone
-        self.id = id
-        
-    def __str__(self):
-        return f'Customer name: {self.name} | phone: {self.phone} | id: {self.id}'
+        super().__init__(db_path)
 
-class Professional:
-    def __init__(self, name, specialty):
+    
+    def create_customer_table(self):
+        super().connect_db()
+        query = '''
+            CREATE TABLE IF NOT EXISTS customers(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                phone TEXT NOT NULL    
+                )
+        '''
+        self.execute_query(query)
+
+    def add_customer(self):
+        query = "INSERT INTO customers (name, phone) VALUES (?,?)"
+        self.execute_query(query, (self.name, self.phone))
+    
+    def get_customers(self):
+        return self.execute_query("SELECT * FROM customers")
+    
+
+class Professional(DatabaseManager):
+    def __init__(self, name, specialty, db_path):
         self.name = name
         self.specialty = specialty
         self.avaliable_times = []
+        super().__init__(db_path)
 
     def book_time(self, time):
         if time not in self.avaliable_times:
@@ -22,10 +69,26 @@ class Professional:
         else:
             print(f'O horário {time} já está disponível.')
         
-    def __str__(self):
-        return f'Professional: {self.name} | specialty: {self.specialty} | times: {self.avaliable_times}'
+    def create_professional_table(self):
+        super().connect_db()
+        query = '''
+            CREATE TABLE IF NOT EXISTS professionals (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                specialty TEXT NOT NULL
+            )
+        '''
+        self.execute_query(query)
 
-class Schedule:
+    def add_professional(self):
+        query = "INSERT INTO professionals (name, specialty) VALUES (?,?)"
+        self.execute_query(query, (self.name, self.specialty))
+
+    def get_professionals(self):
+        return self.execute_query("SELECT * FROM professionals")
+
+    
+class Schedule(Customer, Professional):
 
     def __init__(self):
         self.customers = []
@@ -81,34 +144,27 @@ class Schedule:
         for professional in self.professionals:
             if professional.name == professional_name:
                 professional.avaliable_times.append(time)
-                print(f"Agendamento para {customer_name} com {professional_name} às {time} foi cancelado.")
-                return
+                response = json.dumps({'status': 'cancel',
+                                        'appointment':  { 
+                                            'customer': customer_name,
+                                            'professional': professional_name,
+                                            'time': time
+                                            }
+                                          })
+                return response
 
-        print('Erro: agendamento nao encontrado')
+        return json.dumps({'error': 'agendamento nao encontrado'})
 
+cl = Customer('Danilo', '(79) 9 9999-9999', db_path='database/customs.db')
 
-nome_cliente = input('nome do cliente: ')
-tel_cliente = input('telefone do cliente: ')
+cl.create_customer_table()
+cl.add_customer()
+print(cl.get_customers())
+cl.close_db()
 
+pf = Professional('Matheus', 'Barbeiro', db_path='database/professionals.db')
 
-marcar_horario_nome = input('Marcar horario\n Nome: ')
-marcar_horario_profissional = input('Profissional: ')
-# marcar_horario_hora = input('Hora: ')
-
-cliente = Customer(nome_cliente, tel_cliente, 1)
-barbeiro = Professional('matheus', 'cortes')
-hor = Schedule()
-
-hor.add_customer(cliente)
-barbeiro.book_time('18')
-barbeiro.book_time('19')
-hor.add_professinal(barbeiro)
-
-hor.book_appointment(marcar_horario_nome, marcar_horario_profissional, 17)
-
-hor.check_availability()
-
-hor.cancel_appointment(marcar_horario_nome, marcar_horario_profissional, 17)
-
-hor.check_availability()
-
+pf.create_professional_table()
+pf.add_professional()
+print(pf.get_professionals())
+pf.close_db
