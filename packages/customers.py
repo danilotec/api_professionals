@@ -1,8 +1,9 @@
 from packages.database_manager import DatabaseManager
+import json
 
 class Customer(DatabaseManager):
     
-    def __init__(self, name, phone, db_path):
+    def __init__(self,db_path, name=None, phone=None):
         self.name = name
         self.phone = phone
         super().__init__(db_path)
@@ -20,8 +21,13 @@ class Customer(DatabaseManager):
         self.execute_query(query)
 
     def add_customer(self):
-        query = "INSERT INTO customers (name, phone) VALUES (?,?)"
-        self.execute_query(query, (self.name, self.phone))
+        verify = self.verify_in_database(value=self.name, value2=self.phone, table='customers', column='name', column2='phone')
+        if verify: 
+            query = "INSERT INTO customers (name, phone) VALUES (?,?)"
+            self.execute_query(query, (self.name, self.phone))
+            super().close_db()
+            return json.dumps({'status': 'success customer cadaster'}), 201
+        return json.dumps({'status': 'customer allredy exits'}), 409
     
     def get_customers(self):
         return self.execute_query("SELECT * FROM customers")

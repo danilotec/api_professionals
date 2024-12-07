@@ -1,7 +1,8 @@
 from packages.database_manager import DatabaseManager
+import json
 
 class Professional(DatabaseManager):
-    def __init__(self, name, specialty, db_path):
+    def __init__(self, db_path, name=None, specialty=None ):
         self.name = name
         self.specialty = specialty
         self.avaliable_times = []
@@ -25,9 +26,17 @@ class Professional(DatabaseManager):
         '''
         self.execute_query(query)
 
+    
     def add_professional(self):
-        query = "INSERT INTO professionals (name, specialty) VALUES (?,?)"
-        self.execute_query(query, (self.name, self.specialty))
-
+        verify = self.verify_in_database(value=self.name, value2=self.specialty,table='professionals', column='name', column2='specialty')
+        if verify:
+            query = "INSERT INTO professionals (name, specialty) VALUES (?,?)"
+            self.execute_query(query, (self.name, self.specialty))
+            super().close_db()
+            return json.dumps({'status': 'success professional cadaster'}), 201
+        return json.dumps({'status': 'professional allredy exits'}), 409
+    
     def get_professionals(self):
         return self.execute_query("SELECT * FROM professionals")
+
+

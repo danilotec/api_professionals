@@ -1,4 +1,4 @@
-from app.models import *
+from app.main import *
 
 nome_cliente = 'Danilo'
 tel_cliente = '79 9999999999'

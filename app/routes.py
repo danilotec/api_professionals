@@ -1,8 +1,9 @@
 from flask import Blueprint, jsonify, request
 from dotenv import load_dotenv
+from packages import Customer, Professional
 import os
 
-from app.models import *
+from app.main import *
 
 api_blueprint = Blueprint('api', __name__)
 
@@ -24,6 +25,43 @@ def require_api_key(func):
 def index():
     return jsonify({'Access successful': 'Wellcome!'})
 
+@api_blueprint.route('/add_customer', methods=['POST'])
+@require_api_key
+def add_customer_api():
+    data = request.get_json()
+    name = data.get('name')
+    phone = data.get('phone')
+    print(name)
+    print(phone)
+    if name and phone is not None:
+        cl = Customer(name=name, phone=phone, db_path='database/persons.db')
+        cl.create_customer_table()
+        return cl.add_customer()
+    return jsonify({'error': 'value cannot be none'}), 400
+
+@api_blueprint.route('/get_customers', methods=['GET'])
+@require_api_key
+def get_customers_api():
+    cl = Customer(db_path='database/persons.db')
+    return cl.get_customers(), 200
+
+@api_blueprint.route('/add_professional', methods=['POST'])
+@require_api_key
+def add_profesional_api():
+    data = request.get_json()
+    name = data.get('name')
+    specialty = data.get('specialty')
+    if name and specialty is not None:
+        pf = Professional(name=name, specialty=specialty, db_path='database/persons.db')
+        pf.create_professional_table()
+        return pf.add_professional()
+    return jsonify({'error': 'value cannot be none'}), 400
+
+@api_blueprint.route('/get_professionals', methods=['GET'])
+@require_api_key
+def get_professionals_api():
+    pf = Professional(db_path='database/persons.db')
+    return pf.get_professionals(), 200
 
 if __name__ == '__main__':
     api_blueprint.run(debug=True)
