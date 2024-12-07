@@ -2,12 +2,20 @@ Essa é uma API para gerenciamento de serviços.
 
 A ideia é facilitar a criação de um app de barbearia, manicure, salao de beleza ou qualquer outro tipo de serviço que nescessite de agendamento.
 
-Em 'app/models.py' teremos a logica de negócio e o controle dos agendamentos.
+*Ate o momento, temos 5 endpoints:
 
-    A classe Customer trata de criar os clientes
-        posteriomente será adcionado os methods para o gerenciamento do banco de dados dos clientes.
+    '/' -> Da as boas vindas a API.
 
-    A classe Professional serve para criar o profissioal no sistema e informar qual a atribuição que lhe pertence e os horarios disponiveis.
-        posteriormente tambem será adcionado a integração com o banco de dados.
+    '/add_customer' -> serve para adicionar um novo cliente.
+        como faço isso: 
+            Com um json da seguinte forma: {"name": "nome do cliente", "phone": "(99) 9 9999-9999"}
+            no momento a API não faz tratamento desses dados, o usuario da api deve valida-los antes de usar a API.
 
-    A classe Schedule cuida de todo o agendamento do sistema.
+    '/get_customers' -> retorna uma lista de listas contendo os dados dos clientes.
+
+    '/add_professional' -> Serve para adcionar um novo profissional.
+        como faço isso: 
+            Com um json da seguinte forma: {"name": "nome do profissional", "specialty": "Manicure"}
+            no momento a API não faz tratamento desses dados, o usuario da api deve valida-los antes de usar a API.
+
+    '/get_professionals' -> retorna uma lista de listas contendo os dados dos profissionais.
