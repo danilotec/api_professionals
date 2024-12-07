@@ -1,4 +1,4 @@
-Essa é uma API para gerenciamento de serviços.
+Essa é uma API RESTful self-hosted para gerenciamento de serviços.
 
 A ideia é facilitar a criação de um app de barbearia, manicure, salao de beleza ou qualquer outro tipo de serviço que nescessite de agendamento.
 
