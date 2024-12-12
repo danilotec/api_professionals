@@ -1,10 +1,8 @@
+# API de Gestão de Clientes e Profissionais
+
 Essa é uma API RESTful self-hosted para gerenciamento de serviços.
 
 A ideia é facilitar a criação de um app de barbearia, manicure, salao de beleza ou qualquer outro tipo de serviço que nescessite de agendamento.
-
-# API de Gestão de Clientes e Profissionais
-
-Este projeto fornece uma API para gerenciar clientes e profissionais, com funcionalidades para adicionar e obter dados de ambos. A API também permite adicionar horários para os profissionais.
 
 ## Funcionalidades
 
