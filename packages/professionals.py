@@ -34,8 +34,8 @@ class Professional(DatabaseManager):
             query = "INSERT INTO professionals (name, specialty) VALUES (?,?)"
             self.execute_query(query, (self.name, self.specialty))
             super().close_db()
-            return json.dumps({'status': 'success professional cadaster'}), 201
-        return json.dumps({'status': 'professional allredy exits'}), 409
+            return json.dumps({'message': 'Professional added successfully'}), 201
+        return json.dumps({'message': 'professional allredy exits'}), 409
     
     
     def add_times_professionals(self, id_professional, times: list):
@@ -45,12 +45,12 @@ class Professional(DatabaseManager):
             query = "UPDATE professionals SET times = ? WHERE id = ?"
             try:
                 self.execute_query(query, (times_json, id_professional))
-                return json.dumps({'status': 'success update'}), 200
+                return json.dumps({'message': 'Times added successfullye'}), 200
             except Exception as e:
                 return json.dumps({'status': 'error', 'message': str(e)}), 500
             finally:
                 super().close_db()
-        return json.dumps({'status': 'id not found'}), 409
+        return json.dumps({'message': 'id not found'}), 409
     
     def get_professionals(self):
         return self.execute_query("SELECT * FROM professionals")

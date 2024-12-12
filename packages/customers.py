@@ -26,8 +26,8 @@ class Customer(DatabaseManager):
             query = "INSERT INTO customers (name, phone) VALUES (?,?)"
             self.execute_query(query, (self.name, self.phone))
             super().close_db()
-            return json.dumps({'status': 'success customer cadaster'}), 201
-        return json.dumps({'status': 'customer allredy exits'}), 409
+            return json.dumps({'message': 'Customer added successfully'}), 201
+        return json.dumps({'message': 'customer allredy exits'}), 409
     
     def get_customers(self):
         return self.execute_query("SELECT * FROM customers")

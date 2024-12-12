@@ -65,7 +65,8 @@ def add_times_api():
         if isinstance(id_, int) and isinstance(times, list):
             pf = Professional(db_path='database/persons.db')
             return pf.add_times_professionals(id_, times)
-
+        return jsonify({'error': 'check if values are "int" and "list" types '}), 400
+    return jsonify({'error': 'value cannot be none'}), 400
 @api_blueprint.route('/get_professionals', methods=['GET'])
 @require_api_key
 def get_professionals_api():
