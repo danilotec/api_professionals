@@ -63,6 +63,7 @@ A ideia é facilitar a criação de um app de barbearia, manicure, salao de bele
       "name": "Nome do Cliente",
       "phone": "Telefone do Cliente"
     },
+    ...
   ]
   ```
 - **Status Code**: `200`
@@ -136,6 +137,7 @@ A ideia é facilitar a criação de um app de barbearia, manicure, salao de bele
       "name": "Nome do Profissional",
       "specialty": "Especialidade"
     },
+    ...
   ]
   ```
 - **Status Code**: `200`
