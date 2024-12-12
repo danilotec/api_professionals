@@ -31,8 +31,6 @@ def add_customer_api():
     data = request.get_json()
     name = data.get('name')
     phone = data.get('phone')
-    print(name)
-    print(phone)
     if name and phone is not None:
         cl = Customer(name=name, phone=phone, db_path='database/persons.db')
         cl.create_customer_table()
@@ -56,6 +54,17 @@ def add_profesional_api():
         pf.create_professional_table()
         return pf.add_professional()
     return jsonify({'error': 'value cannot be none'}), 400
+
+@api_blueprint.route('/add_times_professional', methods=['POST'])
+@require_api_key
+def add_times_api():
+    data = request.get_json()
+    id_ = data.get('id')
+    times = data.get('times')
+    if id_ and times is not None:
+        if isinstance(id_, int) and isinstance(times, list):
+            pf = Professional(db_path='database/persons.db')
+            return pf.add_times_professionals(id_, times)
 
 @api_blueprint.route('/get_professionals', methods=['GET'])
 @require_api_key

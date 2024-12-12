@@ -27,16 +27,26 @@ class DatabaseManager:
             print(f'Erro ao executar a consulta {e}')
             return None
 
-    def verify_in_database(self, value, value2, table, column, column2):
+    def verify_in_database(self, value, value2, table, column, column2) -> bool:
         self.connect_db()
         cursor = self.connection.cursor()   
         try:
             cursor.execute(f'SELECT 1 FROM {table} WHERE {column} = ? AND {column2} = ?', (value,value2))
             if cursor.fetchone():
-                return False
-            else:
                 return True
+            return False
         except sqlite3.Error as e:
             print(f'Erro ao executar a consulta {e}')
             return None
-
+    
+    def verify_for_id(self, id_num) -> bool:
+        self.connect_db()
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(f'SELECT 1 FROM professionals WHERE id = ?', (id_num,))
+            if cursor.fetchone():
+                return True
+            return False
+        except sqlite3.Error as e:
+            print(f'Erro ao executar a consulta {e}')
+            return None

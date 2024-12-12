@@ -22,7 +22,7 @@ class Customer(DatabaseManager):
 
     def add_customer(self):
         verify = self.verify_in_database(value=self.name, value2=self.phone, table='customers', column='name', column2='phone')
-        if verify: 
+        if not verify: 
             query = "INSERT INTO customers (name, phone) VALUES (?,?)"
             self.execute_query(query, (self.name, self.phone))
             super().close_db()
