@@ -1,24 +1,12 @@
-from flask import Blueprint, jsonify, request
-from dotenv import load_dotenv
-from packages import Customer, Professional
-import os
+from flask import Blueprint
+from flask import jsonify
+from flask import request
 
-from app.main import *
+from packages import Customer
+from packages import Professional
+from app.admin import *
 
 api_blueprint = Blueprint('api', __name__)
-
-load_dotenv()
-
-API_KEY = os.getenv('API_KEY')
-
-def require_api_key(func):
-    def wrapper(*args, **kwargs):
-        api_key_aut = request.headers.get('X-API-KEY')
-        if not api_key_aut or api_key_aut != API_KEY:
-            return jsonify({'error': 'Access denied'}), 401
-        return func(*args, **kwargs)
-    wrapper.__name__ = func.__name__
-    return wrapper
 
 @api_blueprint.route('/')
 @require_api_key
@@ -67,6 +55,7 @@ def add_times_api():
             return pf.add_times_professionals(id_, times)
         return jsonify({'error': 'check if values are "int" and "list" types '}), 400
     return jsonify({'error': 'value cannot be none'}), 400
+
 @api_blueprint.route('/get_professionals', methods=['GET'])
 @require_api_key
 def get_professionals_api():
