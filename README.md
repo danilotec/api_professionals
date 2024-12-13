@@ -26,7 +26,7 @@ A ideia é facilitar a criação de um app de barbearia, manicure, salao de bele
   }
   ```
 
-### 2. `/add_customer` - Adicionar Cliente
+### 2. `/add-customer` - Adicionar Cliente
 
 - **Método**: `POST`
 - **Descrição**: Adiciona um novo cliente com nome e telefone.
@@ -52,7 +52,7 @@ A ideia é facilitar a criação de um app de barbearia, manicure, salao de bele
     ```
 - **Status Code**: `400` em caso de erro.
 
-### 3. `/get_customers` - Obter Clientes
+### 3. `/get-customers` - Obter Clientes
 
 - **Método**: `GET`
 - **Descrição**: Retorna todos os clientes cadastrados.
@@ -68,7 +68,7 @@ A ideia é facilitar a criação de um app de barbearia, manicure, salao de bele
   ```
 - **Status Code**: `200`
 
-### 4. `/add_professional` - Adicionar Profissional
+### 4. `/add-professional` - Adicionar Profissional
 
 - **Método**: `POST`
 - **Descrição**: Adiciona um novo profissional com nome e especialidade.
@@ -94,7 +94,7 @@ A ideia é facilitar a criação de um app de barbearia, manicure, salao de bele
     ```
 - **Status Code**: `400` em caso de erro.
 
-### 5. `/add_times_professional` - Adicionar Horários para Profissional
+### 5. `/add-times-professional` - Adicionar Horários para Profissional
 
 - **Método**: `POST`
 - **Descrição**: Adiciona os horários disponíveis para um profissional.
@@ -126,7 +126,7 @@ A ideia é facilitar a criação de um app de barbearia, manicure, salao de bele
     ```
 - **Status Code**: `400` em caso de erro.
 
-### 6. `/get_professionals` - Obter Profissionais
+### 6. `/get-professionals` - Obter Profissionais
 
 - **Método**: `GET`
 - **Descrição**: Retorna todos os profissionais cadastrados.
