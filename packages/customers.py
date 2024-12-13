@@ -3,7 +3,7 @@ import json
 
 class Customer(DatabaseManager):
     
-    def __init__(self,db_path, name=None, phone=None):
+    def __init__(self, db_path, name=None, phone=None):
         self.name = name
         self.phone = phone
         super().__init__(db_path)

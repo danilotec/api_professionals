@@ -4,18 +4,22 @@ from packages.customers import Customer
 from packages.professionals import Professional
 from packages.database_manager import DatabaseManager
 
-class Schedule(Customer, Professional):
+class Schedule:
 
     def __init__(self, db_path, name_customer=None, name_professional=None):
       self.name_customer = name_customer
       self.name_professional = name_professional
       self.__db_path = db_path
+      self.database = DatabaseManager()
     
-    def appointment(self):
-        database = None
-        if self.name_customer and self.name_professional in database:
-            pass
-        return False
+    def appointment(self, user_id, table='customers'):
+        verify = self.database.verify_for_id(user_id)
+        if not verify:
+            """
+            buscar se o horario existe na lista do profissonal
+            remover o horario da lista de disponiveis pelo profissional
+            e adicionar na lista de horarios oculpados
+            """
     
 
 
