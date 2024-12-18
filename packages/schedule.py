@@ -2,7 +2,7 @@ import json
 
 from packages.customers import Customer
 from packages.professionals import Professional
-from packages.database_manager import DatabaseManager
+from packages.databaseManager import DatabaseManager
 
 class Schedule:
 

@@ -1,4 +1,4 @@
-from packages.database_manager import DatabaseManager
+from packages.databaseManager import DatabaseManager
 import json
 
 class Customer(DatabaseManager):
