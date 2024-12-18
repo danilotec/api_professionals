@@ -20,7 +20,11 @@ def add_customer_api():
     name = data.get('name')
     phone = data.get('phone')
     if name and phone is not None:
-        cl = Customer(name=name, phone=phone, db_path='database/persons.db')
+        cl = Customer(
+            name=name, 
+            phone=phone, 
+            db_path='database/persons.db'
+            )
         cl.create_customer_table()
         return cl.add_customer()
     return jsonify({'error': 'value cannot be none'}), 400
@@ -38,7 +42,11 @@ def add_profesional_api():
     name = data.get('name')
     specialty = data.get('specialty')
     if name and specialty is not None:
-        pf = Professional(name=name, specialty=specialty, db_path='database/persons.db')
+        pf = Professional(
+            name=name, 
+            specialty=specialty, 
+            db_path='database/persons.db'
+            )
         pf.create_professional_table()
         return pf.add_professional()
     return jsonify({'error': 'value cannot be none'}), 400
@@ -53,7 +61,9 @@ def add_times_api():
         if isinstance(id_, int) and isinstance(times, list):
             pf = Professional(db_path='database/persons.db')
             return pf.add_times_professionals(id_, times)
-        return jsonify({'error': 'check if values are "int" and "list" types '}), 400
+        return jsonify(
+            {'error': 'check if values are "int" and "list" types '}
+            ), 400
     return jsonify({'error': 'value cannot be none'}), 400
 
 @api_blueprint.route('/get-professionals', methods=['GET'])

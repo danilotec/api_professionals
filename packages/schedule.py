@@ -16,7 +16,7 @@ class Schedule:
         verify = self.database.verify_for_id(user_id)
         if not verify:
             """
-            buscar se o horario existe na lista do profissonal
+            buscar se o horario existe na lista do profissional
             remover o horario da lista de disponiveis pelo profissional
             e adicionar na lista de horarios oculpados
             """
